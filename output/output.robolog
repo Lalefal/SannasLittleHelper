@@ -1,0 +1,518 @@
+V 0.0.4
+T 2023-10-18T09:21:12.300+00:00
+ID 1|ae0d38dc-6d97-11ee-8c1c-d8808378a9b0
+I "sys.platform=win32"
+I "python=3.10.12 | packaged by conda-forge | (main, Jun 23 2023, 22:34:57) [MSC v.1936 64 bit (AMD64)]"
+M a:"tasks.py"
+SR a|0.099
+M c:"Collect tasks"
+M d:"setup"
+M e:""
+P b:c|d|e|e|0
+ST b|0.1
+M f:"regular"
+M g:"\nCollecting tasks from: tasks.py\n"
+C f|g|0.1
+M h:"stderr"
+M i:"2023-10-18 12:21:19,916 - RPA.core.certificates - INFO - Truststore injection done, using system certificate store to validate HTTPS.\n"
+C h|i|7.615
+M j:"PASS"
+ET j|e|10.981
+M l:"fill_package_mailing_forms"
+M m:"tasks"
+M n:"c:\\Users\\laura\\Desktop\\RPA\\SannasLittleHelper\\tasks.py"
+M o:"\n    Chooses the right package size for each order,\n    first at Holvi's webpage, then at Posti's.\n    Copies orderers contact information from Holvi\n    and fills Posti's mailing form.\n    At some day, it might also  handle the payment...\n    "
+P k:l|m|n|o|10
+ST k|10.981
+M p:"===================== "
+C f|p|10.982
+M q:"Running: "
+C f|q|10.982
+M r:"task_name"
+C r|l|10.982
+M s:" ======================\n"
+C f|s|10.982
+M t:"METHOD"
+SE k|t|10.982
+M v:"configure"
+M w:"robocorp.browser"
+M x:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\browser\\__init__.py"
+P u:v|w|x|e|18
+SE u|t|10.983
+M y:"kwargs"
+M z:"dict"
+M A:"{'slowmo': 500}"
+EA y|z|A
+EE t|j|10.992
+P B:l|m|n|e|21
+M C:"order_info"
+M D:"{}"
+AS B|C|z|D|10.992
+M F:"open_holvi_website"
+P E:F|m|n|e|52
+SE E|t|10.992
+M H:"goto"
+P G:H|w|x|e|185
+SE G|t|10.993
+M I:"url"
+M J:"str"
+M K:"'https://login.app.holvi.com/'"
+EA I|J|K
+P L:H|w|x|e|198
+M M:"Page"
+M N:"<Page url='https://login.app.holvi.com/'>"
+R L|M|N|14.892
+EE t|j|14.892
+M P:"page"
+P O:P|w|x|e|95
+SE O|t|14.892
+P Q:P|w|x|e|114
+R Q|M|N|14.894
+EE t|j|14.894
+P R:F|m|n|e|58
+AS R|P|M|N|14.894
+M T:"Page.click"
+M U:"playwright.sync_api._generated"
+M V:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\playwright\\sync_api\\_generated.py"
+P S:T|U|V|e|10106
+SE S|t|14.894
+M W:"selector"
+M X:"'#onetrust-accept-btn-handler'"
+EA W|J|X
+P Y:T|U|V|e|10170
+M Z:"NoneType"
+M 0:"None"
+R Y|Z|0|16.666
+EE t|j|16.667
+EE t|j|16.667
+M 2:"log_in"
+P 1:2|m|n|e|62
+SE 1|t|16.667
+M 4:"get_secret"
+M 5:"robocorp.vault"
+M 6:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\vault\\__init__.py"
+P 3:4|5|6|e|19
+SE 3|t|16.667
+M 7:"name"
+M 8:"'credentials'"
+EA 7|J|8
+M 9:"hide"
+M aa:"bool"
+M ab:"True"
+EA 9|aa|ab
+EE t|j|17.993
+P ac:2|m|n|e|63
+M ad:"secret"
+M ae:"SecretContainer"
+M af:"Secret(name=credentials, keys=[holviname, holviword, postiname, postiword])"
+AS ac|ad|ae|af|17.993
+P ag:2|m|n|e|64
+M ah:"username"
+M ai:"'<redacted>'"
+AS ag|ah|J|ai|17.995
+P aj:2|m|n|e|65
+M ak:"password"
+M al:"<redacted>"
+AS aj|ak|J|al|17.995
+SE O|t|17.995
+R Q|M|N|17.996
+EE t|j|17.996
+P am:2|m|n|e|67
+AS am|P|M|N|17.996
+M ao:"Page.fill"
+P an:ao|U|V|e|10341
+SE an|t|17.996
+M ap:"'#email'"
+EA W|J|ap
+M aq:"value"
+EA aq|J|ai
+P ar:ao|U|V|e|10385
+R ar|Z|0|18.542
+EE t|j|18.542
+SE an|t|18.543
+M as:"'#password'"
+EA W|J|as
+EA aq|J|al
+R ar|Z|0|19.086
+EE t|j|19.086
+SE S|t|19.086
+M at:"'#submit'"
+EA W|J|at
+R Y|Z|0|19.646
+EE t|j|19.646
+M av:"Page.wait_for_selector"
+P au:av|U|V|e|8240
+SE au|t|19.646
+M aw:"'#page-loader'"
+EA W|J|aw
+P ax:av|U|V|e|8327
+M ay:"ElementHandle"
+M az:"<JSHandle preview=JSHandle@node>"
+R ax|ay|az|33.178
+EE t|j|33.178
+EE t|j|33.179
+M aB:"go_to_orders"
+P aA:aB|m|n|e|74
+SE aA|t|33.179
+SE O|t|33.179
+M aC:"<Page url='https://account.app.holvi.com/home/'>"
+R Q|M|aC|33.179
+EE t|j|33.179
+P aD:aB|m|n|e|75
+AS aD|P|M|aC|33.179
+M aF:"Page.get_by_role"
+P aE:aF|U|V|e|10584
+SE aE|t|33.179
+M aG:"role"
+M aH:"'menuitem'"
+EA aG|J|aH
+P aI:aF|U|V|e|10777
+M aJ:"Locator"
+M aK:"<Locator frame=<Frame name= url='https://account.app.holvi.com/home/'> selector='internal:role=menuitem[name=\"Verkkokauppa\"i]'>"
+R aI|aJ|aK|33.18
+EE t|j|33.18
+M aM:"Locator.click"
+P aL:aM|U|V|e|15662
+SE aL|t|33.18
+P aN:aM|U|V|e|15748
+R aN|Z|0|36.155
+EE t|j|36.155
+SE aE|t|36.156
+EA aG|J|aH
+M aO:"<Locator frame=<Frame name= url='https://account.app.holvi.com/group/VKgJ5H+tmi-sanna-hellikki-turunen/store/'> selector='internal:role=menuitem[name=\"Kauppa Tilaukset\"i]'>"
+R aI|aJ|aO|36.156
+EE t|j|36.156
+SE aL|t|36.156
+R aN|Z|0|37.107
+EE t|j|37.107
+EE t|j|37.108
+M aQ:"select_order"
+P aP:aQ|m|n|e|122
+SE aP|t|37.108
+SE O|t|37.108
+M aR:"<Page url='https://account.app.holvi.com/group/VKgJ5H+tmi-sanna-hellikki-turunen/store/orders/'>"
+R Q|M|aR|37.108
+EE t|j|37.108
+P aS:aQ|m|n|e|127
+AS aS|P|M|aR|37.108
+SE aE|t|37.109
+M aT:"'link'"
+EA aG|J|aT
+M aU:"<Locator frame=<Frame name= url='https://account.app.holvi.com/group/VKgJ5H+tmi-sanna-hellikki-turunen/store/orders/'> selector='internal:role=link[name=\"Tuotteet Toimituskulu, Talvipuutarha - Winter Garden myyty 44,90 \u20ac 8.10.2023 17.37 Ostaja: Janniina Suominen Kuitin numero: RECEIPT-000129-2023 K\u00e4sitelty\"i]'>"
+R aI|aJ|aU|37.109
+EE t|j|37.109
+SE aL|t|37.109
+R aN|Z|0|37.928
+EE t|j|37.929
+EE t|j|37.929
+M aW:"copy_contact_information"
+P aV:aW|m|n|e|155
+SE aV|t|37.929
+EA C|z|D
+SE O|t|37.93
+M aX:"<Page url='https://account.app.holvi.com/group/VKgJ5H+tmi-sanna-hellikki-turunen/store/orders/bd6d38fcedc2cd30fb79c04cd8bd06b3/'>"
+R Q|M|aX|37.93
+EE t|j|37.93
+P aY:aW|m|n|e|165
+AS aY|P|M|aX|37.931
+M a0:"Page.query_selector_all"
+P aZ:a0|U|V|e|8220
+SE aZ|t|37.931
+M a1:"'.form-control-plaintext'"
+EA W|J|a1
+P a2:a0|U|V|e|8236
+M a3:"list"
+M a4:"[<JSHandle preview=JSHandle@<div class=\"form-control-plaintext tabular\">bd6d38fcedc2cd30fb79c04cd8bd06b3</div>>, <JSHandle preview=JSHandle@<div class=\"form-control-plaintext tabular\">RECEIPT-000129-2023</div>>, <JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>]"
+R a2|a3|a4|37.952
+EE t|j|37.953
+P a5:aW|m|n|e|167
+M a6:"elements"
+AS a5|a6|a3|a4|37.953
+SE aZ|t|37.953
+M a7:"'.m-0'"
+EA W|J|a7
+M a8:"[<JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>]"
+R a2|a3|a8|37.968
+EE t|j|37.968
+P a9:aW|m|n|e|168
+M ba:"addresses"
+AS a9|ba|a3|a8|37.968
+SE aZ|t|37.968
+M bb:"'.text-linky'"
+EA W|J|bb
+M bc:"[<JSHandle preview=JSHandle@node>, <JSHandle preview=JSHandle@node>]"
+R a2|a3|bc|37.982
+EE t|j|37.982
+P bd:aW|m|n|e|169
+M be:"products"
+AS bd|be|a3|bc|37.982
+M bg:"ElementHandle.text_content"
+P bf:bg|U|V|e|1798
+SE bf|t|37.983
+P bh:bg|U|V|e|1808
+M bi:"'bd6d38fcedc2cd30fb79c04cd8bd06b3'"
+R bh|J|bi|37.996
+EE t|j|37.997
+SE bf|t|37.997
+M bj:"'RECEIPT-000129-2023'"
+R bh|J|bj|38.006
+EE t|j|38.007
+SE bf|t|38.007
+M bk:"'Janniina Suominen'"
+R bh|J|bk|38.017
+EE t|j|38.017
+SE bf|t|38.019
+M bl:"'suominenjanniina@gmail.com'"
+R bh|J|bl|38.028
+EE t|j|38.029
+SE bf|t|38.029
+M bm:"'+358456373583'"
+R bh|J|bm|38.041
+EE t|j|38.041
+SE bf|t|38.041
+M bn:"'Kahvelitie I12'"
+R bh|J|bn|38.053
+EE t|j|38.053
+SE bf|t|38.053
+M bo:"'02780 Espoo'"
+R bh|J|bo|38.064
+EE t|j|38.064
+SE bf|t|38.065
+M bp:"'Suomi'"
+R bh|J|bp|38.074
+EE t|j|38.075
+SE bf|t|38.075
+M bq:"'KuvausTalvipuutarha - Winter Garden'"
+R bh|J|bq|38.086
+EE t|j|38.086
+M bs:"ElementHandle.inner_text"
+P br:bs|U|V|e|1810
+SE br|t|38.086
+P bt:bs|U|V|e|1820
+M bu:"'Kuvaus\\nTalvipuutarha - Winter Garden'"
+R bt|J|bu|38.099
+EE t|j|38.099
+M bv:"stdout"
+M bw:"{'order_code': 'bd6d38fcedc2cd30fb79c04cd8bd06b3', 'receipt': 'RECEIPT-000129-2023', 'name': 'Janniina Suominen', 'email': 'suominenjanniina@gmail.com', 'number': '+358456373583', 'address': 'Kahvelitie I12', 'postcode': '02780 Espoo', 'city': 'Suomi', 'product': 'KuvausTalvipuutarha - Winter Garden', 'product.': 'Kuvaus\\nTalvipuutarha - Winter Garden'}"
+C bv|bw|38.1
+M bx:"\n"
+C bv|bx|38.1
+P by:aW|m|n|e|246
+R by|z|bw|38.1
+EE t|j|38.1
+EE t|j|38.1
+C r|l|38.17
+M bz:" status: "
+C f|bz|38.17
+M bA:"PASS\n"
+C f|bA|38.171
+M bB:"================================================================================\n"
+C f|bB|38.171
+ET j|e|38.171
+M bD:"Teardown tasks"
+M bE:"teardown"
+P bC:bD|bE|e|e|0
+ST bC|38.172
+M bF:"Process snapshot"
+SPS bF|38.478
+M bG:"System information:\nMemory: Total: 14.8 G, Available: 2.5 G, Used: 82.9 %\nCPUs: 16"
+P bH:e|e|e|e|0
+L I|bG|bH|0|38.724
+M bI:"Current Process: python.exe (pid: 27556, status: running)\nCommand Line: C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\python.exe -m robocorp.tasks run tasks.py\nStarted: 12:21:11\nParent pid: 36508\nResident Set Size: 90.7 M\nVirtual Memory Size: 75.8 M"
+L I|bI|bH|0|38.768
+M bJ:"OutputToPortThread|Thread ID: 34700 (daemon)"
+STD bJ|38.768
+M bK:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\threading.py"
+M bL:"_bootstrap"
+M bM:"self._bootstrap_inner()"
+TBE bK|973|bL|bM
+M bN:"self"
+M bO:"Thread"
+M bP:"<Thread(OutputToPortThread, started daemon 34700)>"
+TBV bN|bO|bP
+M bQ:"_bootstrap_inner"
+M bR:"self.run()"
+TBE bK|1016|bQ|bR
+TBV bN|bO|bP
+M bS:"run"
+M bT:"self._target(*self._args, **self._kwargs)"
+TBE bK|953|bS|bT
+TBV bN|bO|bP
+M bU:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\tasks\\_log_output_setup.py"
+M bV:"write_in_thread"
+M bW:"msg = q.get()"
+TBE bU|73|bV|bW
+M bX:"msg"
+M bY:"'ST bC|38.073\\n'"
+TBV bX|J|bY
+M bZ:"client_socket"
+M b0:"socket"
+M b1:"<socket.socket fd=320, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 56663), raddr=('127.0.0.1', 53899)>"
+TBV bZ|b0|b1
+M b2:"log"
+M b3:"module"
+M b4:"<module 'robocorp.log' from 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\__init__.py'>"
+TBV b2|b3|b4
+M b5:"port_in_env"
+M b6:"'53899'"
+TBV b5|J|b6
+M b7:"q"
+M b8:"Queue"
+M b9:"<queue.Queue object at 0x000001A52A0BFD30>"
+TBV b7|b8|b9
+M ca:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\queue.py"
+M cb:"get"
+M cc:"self.not_empty.wait()"
+TBE ca|171|cb|cc
+TBV bN|b8|b9
+M cd:"block"
+TBV cd|aa|ab
+M ce:"timeout"
+TBV ce|Z|0
+M cf:"wait"
+M cg:"waiter.acquire()"
+TBE bK|320|cf|cg
+M ch:"Condition"
+M ci:"<Condition(<unlocked _thread.lock object at 0x000001A52AB5AF00>, 1)>"
+TBV bN|ch|ci
+TBV ce|Z|0
+M cj:"waiter"
+M ck:"lock"
+M cl:"<locked _thread.lock object at 0x000001A52AD96D00>"
+TBV cj|ck|cl
+M cm:"saved_state"
+TBV cm|Z|0
+M cn:"gotit"
+M co:"False"
+TBV cn|aa|co
+ETD 38.769
+M cp:"MainThread|Thread ID: 49328 (non daemon)"
+STD cp|38.769
+M cq:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\log\\__init__.py"
+M cr:"process_snapshot"
+M cs:"robo_logger.process_snapshot()"
+TBE cq|268|cr|cs
+M ct:"logger_instances"
+M cu:"{<robocorp.log._robo_logger._RoboLogger object at 0x000001A52A0BFA00>: 1, <robocorp.log._robo_logger._RoboLogger object at 0x000001A52A0BF250>: 1}"
+TBV ct|z|cu
+M cv:"robo_logger"
+M cw:"_RoboLogger"
+M cx:"<robocorp.log._robo_logger._RoboLogger object at 0x000001A52A0BFA00>"
+TBV cv|cw|cx
+M cy:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\log\\_robo_logger.py"
+M cz:"new_func"
+M cA:"return func(self, *args, **kwargs)"
+TBE cy|20|cz|cA
+TBV bN|cw|cx
+M cB:"args"
+M cC:"tuple"
+M cD:"()"
+TBV cB|cC|cD
+TBV y|z|D
+M cE:"func"
+M cF:"function"
+M cG:"<function _RoboLogger.process_snapshot at 0x000001A52ADCA830>"
+TBV cE|cF|cG
+M cH:"return self._robot_output_impl.process_snapshot(hide_vars)"
+TBE cy|419|cr|cH
+TBV bN|cw|cx
+M cI:"hide_vars"
+TBV cI|aa|co
+M cJ:"C:\\ProgramData\\robocorp\\ht\\3eb66c1_b1f3c24_09529949\\lib\\site-packages\\robocorp\\log\\_robo_output_impl.py"
+M cK:"self._dump_threads(hide_vars)"
+TBE cJ|764|cr|cK
+TBV cI|aa|co
+TBV b2|b3|b4
+M cL:"entry_id"
+M cM:"'ps_0'"
+TBV cL|J|cM
+M cN:"entry_type"
+M cO:"'process_snapshot'"
+TBV cN|J|cO
+M cP:"psutil"
+M cQ:"<module 'psutil' from 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\psutil\\\\__init__.py'>"
+TBV cP|b3|cQ
+M cR:"AccessDenied"
+M cS:"type"
+M cT:"<class 'psutil.AccessDenied'>"
+TBV cR|cS|cT
+M cU:"NoSuchProcess"
+M cV:"<class 'psutil.NoSuchProcess'>"
+TBV cU|cS|cV
+M cW:"ZombieProcess"
+M cX:"<class 'psutil.ZombieProcess'>"
+TBV cW|cS|cX
+M cY:"curr_process"
+M cZ:"Process"
+M c0:"psutil.Process(pid=27556, name='python.exe', status='running', started='12:21:11')"
+TBV cY|cZ|c0
+M c1:"log_info"
+M c2:"<function _RoboOutputImpl.process_snapshot.<locals>.log_info at 0x000001A53090EC20>"
+TBV c1|cF|c2
+M c3:"memory_info"
+M c4:"'Total: 14.8 G, Available: 2.5 G, Used: 82.9 %'"
+TBV c3|J|c4
+M c5:"child_i"
+M c6:"int"
+M c7:"0"
+TBV c5|c6|c7
+M c8:"child"
+TBV c8|cZ|c0
+M c9:"'python.exe'"
+TBV 7|J|c9
+M da:"status"
+M db:"'running'"
+TBV da|J|db
+M dc:"create_time"
+M dd:"'12:21:11'"
+TBV dc|J|dd
+M de:"ppid"
+M df:"'36508'"
+TBV de|J|df
+M dg:"cmdline"
+M dh:"'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\python.exe -m robocorp.tasks run tasks.py'"
+TBV dg|J|dh
+M di:"rss"
+M dj:"'90.7 M'"
+TBV di|J|dj
+M dk:"vms"
+M dl:"'75.8 M'"
+TBV dk|J|dl
+M dm:"proc_memory_info"
+M dn:"pmem"
+M do:"pmem(rss=95105024, vms=79454208, num_page_faults=109440, peak_wset=96395264, wset=95105024, peak_paged_pool=226912, paged_pool=210192, peak_nonpaged_pool=44504, nonpaged_pool=29080, pagefile=79454208, peak_pagefile=87175168, private=79454208)"
+TBV dm|dn|do
+M dp:"message"
+M dq:"'Current Process: python.exe (pid: 27556, status: running)\\nCommand Line: C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\python.exe -m robocorp.tasks run tasks.py\\nStarted: 12:21:11\\nParent pid: 36508\\nResident Set Size: 90.7 M\\nVirtual Memory Size: 75.8 M'"
+TBV dp|J|dq
+M dr:"_RoboOutputImpl"
+M ds:"<robocorp.log._robo_output_impl._RoboOutputImpl object at 0x000001A52A1BA710>"
+TBV bN|dr|ds
+M dt:"_dump_threads"
+M du:"stack.append((f, f.f_lineno))"
+TBE cJ|785|dt|du
+TBV bN|dr|ds
+TBV cI|aa|co
+M dv:"thread_id"
+M dw:"49328"
+TBV dv|c6|dw
+M dx:"frame"
+M dy:"<frame at 0x000001A530848240, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\_robo_output_impl.py', line 789, code _dump_threads>"
+TBV dx|dx|dy
+M dz:"thread"
+M dA:"_MainThread"
+M dB:"<_MainThread(MainThread, started 49328)>"
+TBV dz|dA|dB
+M dC:"title"
+M dD:"'MainThread|Thread ID: 49328 (non daemon)'"
+TBV dC|J|dD
+M dE:"f"
+M dF:"<frame at 0x000001A5299823A0, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\tasks\\\\_commands.py', line 259, code run>"
+TBV dE|dx|dF
+M dG:"stack"
+M dH:"[(<frame at 0x000001A530817870, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\__init__.py', line 268, code process_snapshot>, 268), (<frame at 0x000001A52A0CDE40, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\_robo_logger.py', line 20, code new_func>, 20), (<frame at 0x000001A530822F60, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\_robo_logger.py', line 419, code process_snapshot>, 419), (<frame at 0x000001A52B0DCE60, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\_robo_output_impl.py', line 764, code process_snapshot>, 764), (<frame at 0x000001A530848240, file 'C:\\\\ProgramData\\\\robocorp\\\\ht\\\\3eb66c1_b1f3c24_09529949\\\\lib\\\\site-packages\\\\robocorp\\\\log\\\\_robo_output_impl.py', line 789, code _dump_threads>, 785)]"
+TBV dG|a3|dH
+ETD 38.794
+EPS 38.794
+ET j|e|38.879
+ER j|38.879

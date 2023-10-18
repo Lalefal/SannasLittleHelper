@@ -1,0 +1,7 @@
+
+Collecting tasks from: tasks.py
+===================== Running: [96mfill_package_mailing_forms[0m ======================
+{'order_code': 'bd6d38fcedc2cd30fb79c04cd8bd06b3', 'receipt': 'RECEIPT-000129-2023', 'name': 'Janniina Suominen', 'email': 'suominenjanniina@gmail.com', 'number': '+358456373583', 'address': 'Kahvelitie I12', 'postcode': '02780 Espoo', 'city': 'Suomi', 'product': 'KuvausTalvipuutarha - Winter Garden', 'product.': 'Kuvaus\nTalvipuutarha - Winter Garden'}
+[96mfill_package_mailing_forms[0m status: PASS
+================================================================================
+Robocorp Log (html): c:\Users\laura\Desktop\RPA\SannasLittleHelper\output\log.html
