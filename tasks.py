@@ -1,65 +1,81 @@
 from robocorp.tasks import task
 from robocorp import browser
-
-# from robocorp.browser import Browser
 from RPA.Robocloud.Secrets import Secrets
 from robocorp import vault
 from RPA.Assistant import Assistant
 
 
-assistant = Assistant()
-# order_amount = 0
-order_info = {}
 
+assistant = Assistant()
+order_info = {}
 
 @task
 def fill_package_mailing_forms():
-    # def check_orders_from_Holvi():
-
-    """
-    Chooses the right package size for each order,
+    """Chooses the right package size for each order,
     first at Holvi's webpage, then at Posti's.
     Copies orderers contact information from Holvi
     and fills Posti's mailing form.
-    At some day, it might also  handle the payment...
-    """
+    At some day, it might also  handle the payment..."""
     browser.configure(
         slowmo=500,
     )
-    
     open_holvi_website()
     log_in()
     go_to_orders()
     order_amount = check_how_many_orders()
     select_order(order_amount)
-   # check_amount_of_ordered_products() #jos ok: copy_order_information(order_info) / jos ei ok: mene seuraavaan tilaukseen TEE TÄMÄ
+   # check_amount_of_ordered_products() 
+   # if == 2: 
+   #    copy_order_information(order_info)  
+   # else: 
+   #    go_to_next_order(order_amount) 
+   #    -> check_amount_of_ordered_products() 
+   # check_package_size(order_info)
     pageP = open_posti_website()
     log_in_to_posti(pageP)
-    fill_the_form_and_clickety_click_everything(order_info, pageP, order_amount)
+    fill_the_form(pageP, order_info)
+    and_clickety_click_everything(pageP, order_amount)
+    #Lähetätkö monta pakettia?
+    # if len(order_amount) != 0
+        # go_to_next_order(order_amount)
+    #Haluatko käyttää sarjapaketti- tai alennuskoodin?
+    #Syöttää käyttäjän tiedot
+    #wait_for_payment(pageP)
+    # Käyttäjä valitsee maksutavan ja hoitaa maksun
+    
+    #vielä puuttuu:    
+        # mark_order_as_done()
+def pass_the_order(name, receipt):
+        assistant.add_heading(f"Tilauksessa {name, receipt} on useampi tuote tai se on lahjakorttitilaus")
+        assistant.add_text("Jätän tilauksen käsittelemättä")
+        assistant.run_dialog()                  #tallenna jonnekin nämä tiedot
+        
+def check_for_errors(pageP):
+    """Checks that the Postis forms are filled correctly"""
+    errors = pageP.query_selector('.text-input__error')
+    if not errors:
+        pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava (lisäpalvelut)
+    else:
+        assistant.add_heading("Jokin tieto on väärin, tarkista tiedot")
+        assistant.add_text("Paina Ok kun tiedot on oikein") #tänne robolle ohje odottaa, että submit on painettu
+        assistant.add_submit_buttons(buttons="Ok", default="Ok")
+        assistant.run_dialog()
+        
+def serial_package_code(pageP):
+    assistant.add_heading("Haluatko käyttää sarjapaketti- tai alennuskoodin?")
+    assistant.add_submit_buttons(buttons="En, Haluan", default="Haluan")
+    result = assistant.run_dialog()
+    if result.submit == "Haluan":
+        assistant.add_text_input("Sarjakoodi", label="Sarjakoodi", placeholder="Syötä koodi: ")
+        assistant.add_submit_buttons("Ok", default="Ok")
+            #robo siirtää koodin postin sivulle
+            #   page.fill("#input-field-36", sarjakoodi)
+            #   page.click(".summary__discount-code__form-submit-button")  vai   (".themed-button--text-only > span:nth-child(2)") #mitä täällä tapahtuu???
+            # pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava -> Syötä omat tiedot
 
-# @task
-# def fill_package_mailing_forms_at_Posti():
-    # pageP = open_posti_website()
-    # log_in_to_posti(pageP)
-    # fill_the_form_and_clickety_click_everything(order_info, pageP, order_amount)
-# wait_for_payment()
-# mark_order_as_done()
-
-
-# check_how_many_orders()
-# while orders < 0:
-
-# select_order()
-# check_amount_of_ordered_products()
-# check_package_size()
-# copy_contact_information()
-# go_to_posti()
-# log_in_to_posti()      Mihin väliin, jotta tekee vain kerran?
-# fill_the_form_and_clickety_click_all()
-# mark_order_done()
-# check if more orders, start again
-
-# inform user to pay to Posti
+    else:
+        pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava -> Syötä omat tiedot
+        
 
 
 def open_holvi_website():
@@ -116,13 +132,31 @@ def select_order(order_amount):  # amount_of_orders
         check_amount_of_ordered_products()
     else:
         print("No unprocessed orders found.") #ilmoita assistantilla että kaikki on käsitelty?
+        
+def go_to_next_order(order_amount):
+    pageH = browser.page()
+    pageH.click("#sidebar-online-store")
+    pageH.wait_for_selector("#sidebar-online-store-orders")
+    pageH.click("#sidebar-online-store-orders")
+    
+    if len(order_amount) > 1:
+        selected_order = order_amount[-1]
+        selected_order.click()
+        order_amount.pop()
+        check_amount_of_ordered_products()
+    elif len(order_amount) == 1:
+        selected_order = order_amount[0] 
+        selected_order.click()
+        order_amount.pop()
+        check_amount_of_ordered_products()
+    else:
+        print("No unprocessed orders found.") #ilmoita assistantilla että kaikki on käsitelty?
+    
 
-
-def check_amount_of_ordered_products():
+def check_amount_of_ordered_products(order_amount):
     """Counts the amount of products in the order.
     If there is more than one product in the order (+postage)
     informs user about it and continues to the next order"""
-
     pageH = browser.page()
     pageH.wait_for_load_state("domcontentloaded")
 
@@ -134,9 +168,8 @@ def check_amount_of_ordered_products():
     if len(ordered_products) == 2:
         copy_order_information(order_info)
     else:
-        assistant.add_heading(f"Tilauksessa {name, receipt} on useampi tuote tai se on lahjakorttitilaus")
-        assistant.add_text("Jätän tilauksen käsittelemättä")
-        assistant.run_dialog() # valitse seuraava tilaus, lähetä spostilla tilauksen tiedot
+        pass_the_order(name, receipt)
+        go_to_next_order(order_amount)
 
 
 def copy_order_information(order_info):
@@ -167,7 +200,8 @@ def copy_order_information(order_info):
     
     products = pageH.query_selector_all(".text-linky")  #ordered product  
     order_info["product"] = (products[0].text_content().replace("Kuvaus", ""))
-    #Toimituskulu saattaa olla ekana -> miten tsekata asia ja reagoida siihen? -> if product == "Toimituskulu", tee jotain
+    if order_info["product"] == "Toimituskulu":
+        order_info["product"] = (products[1].text_content().replace("Kuvaus", ""))
 
     elements = pageH.query_selector_all("a.tr") #for finding products product code
     for element in elements:
@@ -184,12 +218,8 @@ def copy_order_information(order_info):
 
 def check_package_size(order_info):
     """Decides the needed package size based on the product that is ordered
-    and chooses Posti's matching package size.
-    Informs user about the package sizes."""
-
-    # Ilmoita package userille
-
-    find = order_info["product_code"]
+    and chooses Posti's matching package size. Informs user about the package sizes."""
+    find = order_info["product_code"]                           
     with open("Packets.csv") as file:
         for row in file:
             parts = row.strip().split(";")
@@ -202,9 +232,8 @@ def check_package_size(order_info):
                 order_info["delivery"] = delivery
         
         print(order_info)    
-        return order_info
+        return order_info                               # Ilmoita package userille
          
-
 
 def open_posti_website():
     """Navigates to the given URL"""
@@ -227,89 +256,68 @@ def log_in_to_posti(pageP):
     pageP.click("#posti_login_btn")
 
 
-def fill_the_form_and_clickety_click_everything(order_info, pageP, order_amount):
-    """Chooses the right package, fills the form and gives all the needed information"""
+def fill_the_form(pageP, order_info):
+    """Chooses the right package, fills the form 
+    and gives all the needed information #Onhan tiedot oikein? Tallenna uusi kontakti"""
     pageP.click("text=Näytä isot pakettikoot")
 
     this = order_info["delivery"] #chooses the right delivery package size
     pageP.click(f"text={this}")
-
-    pageP.get_by_text("Vastaanottajan nimi").fill(order_info["name"])
-    pageP.check("#send-to-office") #Toimitus Postiin 
-
-    pageP.get_by_text("Katuosoite").fill(order_info["address"])
-    pageP.get_by_text("Postinumero").fill(order_info["postcode"])
-    pageP.get_by_text("Postitoimipaikka").fill(order_info["city"])
-    pageP.get_by_text("Vastaanottajan matkapuhelin").fill(order_info["number"])
-
-    try: #tämä ei toimi
-        new_contact = pageP.query_selector('input[type="radio"][name="contact-update-select"][value="save_new"]') #Tallenna kokonaan uusi kontakti
-        if new_contact:
-            pageP.check(new_contact)
-    except:
-        pass
-            
-    errors = pageP.query_selector('.text-input__error') #onko kaikki rivit täytetty oikeilla tiedoilla
-    if not errors:
-        pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-    else:
-        assistant.add_heading("Jokin tieto on väärin, tarkista tiedot")
-        assistant.add_text("Paina Submit kun tiedot on oikein") #tänne robolle ohje odottaa, että submit on painettu
-        assistant.add_submit_buttons("Submit", default="Submit")
-        assistant.run_dialog()
-
-    # Tarvitsetko lisäpalveluja?
-    pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-
-    #Onhan tiedot oikein? #Lähetykset(määrä)
     
+    if this == "Pikkupaketti-lähetys": #menee seuraavaksi kohtaan #Onhan tiedot oikein?
+        pageP.get_by_text("Vastaanottajan nimi").fill(order_info["name"])
+        pageP.get_by_text("Katuosoite").fill(order_info["address"])
+        pageP.get_by_text("Postinumero").fill(order_info["postcode"])
+        pageP.get_by_text("Postitoimipaikka").fill(order_info["city"])
+        pageP.get_by_text("Vastaanottajan matkapuhelin").fill(order_info["number"])
+
+        check_for_errors(pageP) #siirtyy sivulle #tiedot oikein
+
+    if this != "Pikkupaketti-lähetys": # seuraava on Tarvitsetko lisäpalveluja?
+        pageP.get_by_text("Vastaanottajan nimi").fill(order_info["name"])
+        pageP.check("#send-to-office") #Toimitus Postiin 
+
+        pageP.get_by_text("Katuosoite").fill(order_info["address"])
+        pageP.get_by_text("Postinumero").fill(order_info["postcode"])
+        pageP.get_by_text("Postitoimipaikka").fill(order_info["city"])
+        pageP.get_by_text("Vastaanottajan matkapuhelin").fill(order_info["number"])
+
+        try:                                                  
+            new_contact = pageP.query_selector('input[type="radio"][name="contact-update-select"][value="save_new"]') #Tallenna kokonaan uusi kontakti
+            if new_contact:
+                pageP.check('input[type="radio"][name="contact-update-select"][value="save_new"]')
+        except:
+            pass
+        
+        check_for_errors(pageP)    # siirtyy sivulle Tarvitsetko lisäpalveluja?
+        pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava (tiedot oikein)
+            
+    
+def and_clickety_click_everything(pageP, order_amount):
+    """Lähetykset(määrä) Lähetätkö monta pakettia? Syötä sarjapaketti- tai alennuskoodi
+    #Lähetätkö monta pakettia?"""
     if len(order_amount) != 0:
-        pageP.click(".add-new-parcel__button")
+        pageP.click(".add-new-parcel__button") #Lisää uusi lähetys
         pageH = browser.page()
-        pageH.bring_to_front()  # takaisin Holviin
-        go_to_orders()
-        select_order(order_amount)
-        check_amount_of_ordered_products()
-        fill_the_form_and_clickety_click_everything(order_info, pageP, order_amount)
-                #takaisin Holviin, seuraava tilaus  
-    else:    #sarjakoodi tulisi syöttää tässä vaiheessa
-        assistant.add_heading("Haluatko käyttää sarjapaketti- tai alennuskoodin?")
-        assistant.add_submit_buttons("Submit", default="Submit") #kyllä tai ei
-        #jos ei 
-            #pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-        #jos kyllä / If sarjakoodi:
-        assistant.add_text("Syötä koodi: ") #tee tästä input
-        assistant.add_submit_buttons("Submit", default="Submit") #robo siirtää koodin postin sivulle
-            #   page.fill("#input-field-36", sarjakoodi)
-            #   page.click(".summary__discount-code__form-submit-button")  vai   (".themed-button--text-only > span:nth-child(2)") #mitä täällä tapahtuu???
-            #pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-        assistant.run_dialog()
+        pageH.bring_to_front()  
+        go_to_next_order(order_amount) #takaisin Holviin, seuraava tilaus  
+        
+    else:   #Haluatko käyttää sarjapaketti- tai alennuskoodin?
+        serial_package_code(pageP) 
 
-    # Syötä omat tiedot
-    # tulee automaattisesti -> robo tsekkaa, että on. Jos ei ole, robo ilmoittaa asiasta
-    errors = pageP.query_selector('.text-input__error') #onko kaikki rivit täytetty oikeilla tiedoilla
-    if not errors:
-        pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-    else:
-        assistant.add_heading("Jokin tieto on väärin, tarkista tiedot")
-        assistant.add_text("Paina Submit kun tiedot on oikein") #tänne robolle ohje odottaa, että submit on painettu
-        assistant.add_submit_buttons("Submit", default="Submit")
-        assistant.run_dialog()
-
-    pageP.click("button.wizard-next-prev__button:nth-child(2)") #Seuraava
-
-    # Valitse maksutapa
-    assistant.add_heading("Voit nyt maksaa postimaksut")
-    assistant.add_text("Paina Submit kun maksu on suoritettu")
-    assistant.add_submit_buttons("Submit", default="Submit")
-    assistant.run_dialog()
-
-    # page.wait_for_selector("button.wizard-next-prev__button:nth-child(2)") #"Maksa (€)"
-
+    # Syötä omat tiedot: tulee automaattisesti -> robo tsekkaa, että tiedot löytyy. Jos error, robo ilmoittaa asiasta
+    check_for_errors(pageP) #Seuraava (Valitse maksutapa)
+    wait_for_payment()
 
 def wait_for_payment():
     """Waits for the user to pay to Posti"""
-    pass
+    # Valitse maksutapa
+    assistant.add_heading("Voit nyt maksaa postimaksut")
+    assistant.add_text("Paina ok kun maksu on suoritettu")
+    assistant.add_submit_buttons("ok", default="ok")
+    assistant.run_dialog()
+
+    # page.wait_for_selector("button.wizard-next-prev__button:nth-child(2)") #"Maksa (€)"
 
 
 def mark_order_as_done(pageH):
