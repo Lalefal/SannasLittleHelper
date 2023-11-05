@@ -7,9 +7,12 @@ from RPA.Assistant import Assistant
 
 #  # Wait for an element to contain certain text
 #     browser.wait_for_element_contains(".dynamic-element", "Expected text")
-# assistant = Assistant()
+assistant = Assistant()
+#orders = []
 order_info = {}
-
+unprocessed_orders = []
+processed_orders = []
+last_processed_order_index = None
 @task
 def fill_package_mailing_forms():
     """Chooses the right package size for each order,
@@ -23,8 +26,8 @@ def fill_package_mailing_forms():
     open_holvi_website()
     log_in()
     go_to_orders()
-    order_amount = check_how_many_orders()
-    select_order(order_amount)
+    orders = check_how_many_orders()
+    select_order(orders)
    # check_amount_of_ordered_products() 
    # if == 2: 
    #    copy_order_information(order_info)  
@@ -35,7 +38,7 @@ def fill_package_mailing_forms():
     pageP = open_posti_website()
     log_in_to_posti(pageP)
     fill_the_form(pageP, order_info)
-    and_clickety_click_everything(pageP, order_amount)
+    and_clickety_click_everything(pageP, orders)
     #Lähetätkö monta pakettia?
     # if len(order_amount) != 0
         # go_to_next_order(order_amount)
@@ -47,10 +50,10 @@ def fill_package_mailing_forms():
    
         # mark_order_as_done()
 def pass_the_order(name, receipt):
-        assistant.add_heading(f"Tilauksessa {name, receipt} on useampi tuote tai se on lahjakorttitilaus")
-        assistant.add_text("Jätän tilauksen käsittelemättä")
-        assistant.add_submit_buttons(buttons="Ok", default="Ok")
-        assistant.run_dialog()                  #tallenna jonnekin nämä tiedot
+    assistant.add_heading(f"Tilauksessa {name, receipt} on useampi tuote tai se on lahjakorttitilaus")
+    assistant.add_text("Jätän tilauksen käsittelemättä")
+    assistant.add_submit_buttons(buttons="Ok", default="Ok")
+    assistant.run_dialog()                  #tallenna jonnekin nämä tiedot
         
 def check_for_errors(pageP):
     """Checks that the Postis forms are filled correctly"""
@@ -112,28 +115,100 @@ def go_to_orders():
 
 def check_how_many_orders():
     """Counts how many orders are not processed"""
+    global last_processed_order_index
     pageH = browser.page()
     pageH.wait_for_load_state("domcontentloaded")
     pageH.wait_for_selector(".badge-outline-warning")
-    order_amount = pageH.query_selector_all(".badge-outline-warning")
-    print(len(order_amount))
-    return order_amount
+    orders = pageH.query_selector_all(".badge-outline-warning")
+    #last_processed_order_index += 1
+    print(len(orders))
+    return orders
+    #order_amount = pageH.query_selector_all(".badge-outline-warning")
+    # index = 1
+    # while True:
+    #     try:
+    #         item = pageH.locator(f"a.tr.empty.badge-outline-warning:nth-of-type({index})")
+    #         pageH.locat
+    #         if item:
+    #             href = item.get_attribute("href")
+    #             order_code = href.split("/")[-2]
+    #             orders.append(order_code)
+    #         index += 1
+    #     except:
+    #         break  # Exit the loop if no more items are found
+    # # index = 1
+    # while True:
+    #     try:
+    #         item = pageH.locator(f"a.tr.empty:nth-of-type({index})")
+    #         if item.locator(".badge-outline-warning"):
+    #             href = item.get_attribute("href")
+    #             order_code = href.split("/")[-2]
+    #             orders.append(order_code)
+    #         index += 1
+    #     except:
+    #         break
+    # list_items = pageH.query_selector_all('.badge-outline-warning')
+    # for item in list_items:
+    #     href = item.get_attribute('href')
+    #     order_code = href.split('/')[-1]
+    #     orders.append(order_code)
+    #for (len(order_amount):
+    # this = order_info["order_code"]
+    # link_selector = f'a[href$="{this}/"]'
+    # pageH.click(link_selector)
+# print(len(orders))    
+# return orders
 ##order-list-items > li:nth-child(1) > order-list-item > a > div.tr-right > div > div > div
 #<div class="badge badge-pill badge-outline-warning" ng-if="!order.isProcessed()" translate=""><span>Avoimet</span></div>
 
-def select_order(order_amount):  # amount_of_orders  
+def select_order(orders):  # amount_of_orders  
     """Selects (the last) order that is not processed"""
-    pageH = browser.page()
-    pageH.wait_for_load_state("domcontentloaded")
- 
-    if len(order_amount) > 1:
-        selected_order = order_amount[-1]
+    # pageH = browser.page()
+    # pageH.wait_for_load_state("domcontentloaded")
+    # pageH.wait_for_selector(".badge-outline-warning")
+    global last_processed_order_index
+    if last_processed_order_index is None:
+        last_processed_order_index = len(orders) - 1
+    else:
+        last_processed_order_index -= 1
+    if last_processed_order_index >= 0:
+        # Select the next unprocessed order from the end
+        selected_order = orders[last_processed_order_index]
         selected_order.click()
+        check_amount_of_ordered_products(orders)   
+    # if len(orders) > last_processed_order_index:
+    #     selected_order = orders[last_processed_order_index]
+    #     selected_order.click()
+    #     check_amount_of_ordered_products(orders)
+    
+    # if len(orders) > 1:
+    #     selected_order = orders.pop()
+    #     selected_order.click()
+
+    #     print(len(orders))
+    #     check_amount_of_ordered_products(orders)
         
-        #del order_amount[-1]
-        order_amount.pop()
-        print(len(order_amount))
-        check_amount_of_ordered_products(order_amount)
+                # list_item_selector = f"a[href*=\\\\\\\'{order_code}\\\\\\\']"
+        # pageH.click(list_item_selector)
+    
+    # for order_code in orders:
+    #     # Replace this with the actual selector for the list item
+    #     list_item_selector = f"a[href*=\\\\\\\'{order_code}\\\\\\\']"
+    #     pageH.click(list_item_selector)
+ 
+    # if len(orders) > 1:
+    #     this = orders[-1]
+    #     link_selector = f'a[href$="{this}/"]'
+    #     pageH.click(link_selector)
+    #     orders.pop(this)
+    #     check_amount_of_ordered_products(orders)
+        # selected_order = order_amount[-1]
+        # selected_order.click()
+        
+        # #del order_amount[-1]
+        # order_amount.pop()
+        # print(len(order_amount))
+        # check_amount_of_ordered_products(order_amount)
     # elif len(order_amount) == 1:
     #     selected_order = order_amount[-1] 
     #     selected_order.click()
@@ -142,24 +217,64 @@ def select_order(order_amount):  # amount_of_orders
     #     check_amount_of_ordered_products(order_amount)
     else:
         print("No unprocessed orders found.") #ilmoita assistantilla että kaikki on käsitelty?
+        print(len(orders))
         assistant.add_heading("En löydä tilauksia")
         assistant.add_submit_buttons(buttons="Ok", default="Ok")
         assistant.run_dialog() 
         
-def go_to_next_order(order_amount):
-    """Selects next order that is not processed"""
+        
+def go_to_next_order():
     pageH = browser.page()
     pageH.click("#sidebar-online-store")
     pageH.wait_for_selector("#sidebar-online-store-orders")
     pageH.click("#sidebar-online-store-orders")
     pageH.wait_for_selector(".badge-outline-warning")
+    orders = check_how_many_orders()
+    if len(orders) > 0:
+        select_order(orders)        
+        
+# def go_to_next_order(orders):
+#     """Selects next order that is not processed"""
+#     global last_processed_order_index
+#     pageH = browser.page()
+#     pageH.click("#sidebar-online-store")
+#     pageH.wait_for_selector("#sidebar-online-store-orders")
+#     pageH.click("#sidebar-online-store-orders")
+#     pageH.wait_for_selector(".badge-outline-warning")
+    
+#     if len(orders) > 1:
+#         selected_order = orders[last_processed_order_index]
+#         selected_order.click()
+#         check_amount_of_ordered_products(orders)
+    
+    # if len(orders) > 1:
+    #     selected_order = orders.pop()
+    #     selected_order.click()
+    #     # list_item_selector = f"a[href*=\\\\\\\'{order_code}\\\\\\\']"
+    #     # pageH.click(list_item_selector)
+    #     print(len(orders))
+    #     check_amount_of_ordered_products(orders)
+    
+    
+    # if len(orders) > 1:
+    #     order_code = orders.pop()
+    #     list_item_selector = f"a[href*=\\\\\\\'{order_code}\\\\\\\']"
+    #     pageH.click(list_item_selector)
+    #     check_amount_of_ordered_products(orders)
+    
+    # if len(orders) > 1:
+    #     this = orders[-1]
+    #     link_selector = f'a[href$="{this}/"]'
+    #     pageH.click(link_selector)
+    #     orders.pop(this)
+    #     check_amount_of_ordered_products(orders)
 
-    if len(order_amount) > 1:
-        selected_order = order_amount[-1]
-        selected_order.click()
-        del order_amount[-1]
-        print(len(order_amount))
-        check_amount_of_ordered_products(order_amount)
+    # if len(order_amount) > 1:
+    #     selected_order = order_amount[-1]
+    #     selected_order.click()
+    #     del order_amount[-1]
+    #     print(len(order_amount))
+    #     check_amount_of_ordered_products(order_amount)
     # elif len(order_amount) == 1:
     #     selected_order = order_amount[-1] 
     #     selected_order.click()
@@ -167,30 +282,36 @@ def go_to_next_order(order_amount):
     #     print(len(order_amount))
     #     check_amount_of_ordered_products(order_amount)
     else:
-        print(len(order_amount))
+        print(len(orders))
         assistant.add_heading("En löydä tilauksia")
         assistant.add_submit_buttons(buttons="Ok", default="Ok")
         assistant.run_dialog() 
         
 
-def check_amount_of_ordered_products(order_amount):
+def check_amount_of_ordered_products(orders):
     """Counts the amount of products in the order.
     If there is more than one product in the order (+postage)
+    or the orderers country is not Suomi
     informs user about it and continues to the next order"""
     pageH = browser.page()
     pageH.wait_for_load_state("domcontentloaded")
 
     ordered_products = pageH.query_selector_all(".text-linky")
+    
+    addresses = pageH.query_selector_all(".m-0")
+    country = addresses[2].text_content()
+    
     infos = pageH.query_selector_all(".form-control-plaintext")
     name = infos[2].text_content()
     receipt = infos[1].text_content()
 
-    if len(ordered_products) == 2:
+    if len(ordered_products) == 2 and country == "Suomi":
         copy_order_information(order_info)
     else:
-        print(name, receipt)
+        unprocessed_orders.append(name, receipt)
+        print(name, receipt) #tilaus on jo poistettu listasta orders
         pass_the_order(name, receipt)
-        go_to_next_order(order_amount)
+        go_to_next_order(orders)
 
 
 def copy_order_information(order_info):
@@ -232,7 +353,7 @@ def copy_order_information(order_info):
         if (product_code != "01455636f139251516278951e82ae2ec"):  # TestiToimituskulun koodi, oikea on "c50debf7d6fb2e8a3fc30cac076ac151"
             order_info["product_code"] = product_code
             break
-
+    
     print(order_info)
     check_package_size(order_info)
 
@@ -252,7 +373,7 @@ def check_package_size(order_info):
                 order_info["delivery"] = delivery
         
         print(order_info)    
-        return order_info                               # Ilmoita package userille
+        return order_info                               # tarviiko tätä?
          
 
 def open_posti_website():
@@ -311,22 +432,26 @@ def fill_the_form(pageP, order_info):
         except:
             pass
         
+        
         check_for_errors(pageP)    #siirtyy sivulle Tarvitsetko lisäpalveluja?
         pageP.click("button.wizard-next-prev__button:nth-child(2)") #Siirtyy sivulle Onhan tiedot oikein
-            
     
-def and_clickety_click_everything(pageP, order_amount):
+    processed_orders.append(order_info)
+    
+def and_clickety_click_everything(pageP, orders):
     """Chooses if there are many packages to send
     Asks if the user wants to use serial packet or discount code
     Checks that the 'Senders information' form is filled correctly"""
-    if len(order_amount) != 0:
+    if len(orders) != 0:
         pageP.click(".add-new-parcel__button") #Lisää uusi lähetys
         pageH = browser.page()
         pageH.bring_to_front()  
-        go_to_next_order(order_amount) #takaisin Holviin, seuraava tilaus         
+        go_to_next_order() #takaisin Holviin, seuraava tilaus         
     else:   #Haluatko käyttää sarjapaketti- tai alennuskoodin?
-        serial_package_code(pageP) # Siirtyy sivulle Syötä omat tiedot
-    
+        if order_info["delivery"] not in ["M-Plus-Paketti", "S-Plus-paketti"]:
+            serial_package_code(pageP) # Siirtyy sivulle Syötä omat tiedot         
+            
+        
     check_for_errors(pageP) # Syötä omat tiedot: tulee automaattisesti #if not: Siirtyy sivulle Valitse maksutapa
     wait_for_payment()
 
@@ -347,23 +472,35 @@ def mark_order_as_done():
     pageH = browser.page()
     pageH.bring_to_front()  # takaisin Holviin
     #tilaukset sivulle
-    pageH.click("#sidebar-online-store")
-    pageH.wait_for_selector("#sidebar-online-store-orders")
-    pageH.click("#sidebar-online-store-orders")    
+
     #valitse tilaus order id:n perusteella
-    this = order_info["order_code"]
-    link_selector = f'a[href$="{this}/"]'
-    pageH.click(link_selector)
-    pageH.click("#dropdownOderOptions")
-#element <button class="btn btn-secondary dropdown-toggle btn-icon-only btn-show-text-sm" id="dropdownOderOptions" uib-dropdown-toggle="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span>Vaihtoehdot </span></button>
-    pageH.wait_for_selector("#order-mark-as-processed-btn")
-    pageH.click("#order-mark-as-processed-btn")
+    for order_info in processed_orders:
+        pageH.click("#sidebar-online-store")
+        pageH.wait_for_selector("#sidebar-online-store-orders")
+        pageH.click("#sidebar-online-store-orders")
+        pageH.wait_for_selector(".badge-outline-warning")    
+        
+        this = order_info["order_code"]
+        link_selector = f'a[href$="{this}/"]'
+        pageH.click(link_selector)
+        pageH.click("#dropdownOderOptions")
+        pageH.wait_for_selector("#order-mark-as-processed-btn")
+        pageH.click("#order-mark-as-processed-btn")
+#element <button class="btn btn-secondary dropdown-toggle btn-icon-only btn-show-text-sm" id="dropdownOderOptions" uib-dropdown-toggle="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span>Vaihtoehdot </span></button>  
 #element <a class="dropdown-item" id="order-mark-as-processed-btn" tabindex="0" ng-click="toggleMarkAsProcessed()">Merkitse käsitellyksi</a>
 
     # merkkaa tilaus/tilaukset käsitellyksi
     # pitäisikö userin tehdä tämä?
+    
+    tell = []
+    for order_info in processed_orders:
+        these = order_info["receipt"]
+        tell.append(these)
+        that =  order_info["package"]
+        tell.append(that)
+
     assistant.add_heading("Oletko tyytyväinen?")
-    assistant.add_text(f"Käsitelty tilaus: {order_info}")
+    assistant.add_text(f"Käsitellyt tilaukset: {tell}")
     assistant.add_submit_buttons("Kyllä", default="Kyllä")
     assistant.run_dialog()
     
