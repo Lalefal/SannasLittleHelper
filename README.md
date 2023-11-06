@@ -31,6 +31,9 @@ Robot is made with Minimal Template and it works from Control Room as an Assista
 
 Many thanks to Robocorp and to ReMark <3
 
+![image](https://github.com/Lalefal/SannasLittleHelper/assets/94318146/ffb77c0b-33f9-4bd1-a778-dbaecd1ce487)
+
+
 # Template: Python - Minimal
 
 This template leverages the new Python open-source structure [robo](https://github.com/robocorp/robo), the [libraries](https://github.com/robocorp/robo#libraries) from to same project as well.
