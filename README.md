@@ -1,6 +1,6 @@
 # Mailing assistant robot
 
-This is a school project for Robotic Process Automation course: Mailing Assistant Robot for my friend [Sanna Hellikki](https://holvi.com/shop/sannahellikkiturunen/) to process the orders.
+This is a school project for Robotic Process Automation course: Mailing Assistant Robot for my friend [Sanna Hellikki's](https://holvi.com/shop/sannahellikkiturunen/) online store to process the orders.
 
 Robot 
 - checks the amount of unprocessed orders
