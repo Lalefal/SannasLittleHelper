@@ -14,13 +14,13 @@ Robot
   - else:
      - informs the user that the order won't be processed
      - goes to the next unprocessed order
-- asks if the user want's to use serial or discount code for paying the delivery
+- asks if the user wants to use serial or discount code for paying the delivery
 - informs the user when it is time to pay for the delivery and waits until it is done
 - marks the processed orders as processed
 
 There is still many things to add and fix
-  - Robot to send an email to the user about processed and unprocessed orders
-  - How to exit from the 'select next order'-loop if the last order to process doesn't fill the conditions to process the order
+  - Robot to send an email about processed and unprocessed orders
+  - How to exit from the loop 'select next order' if the last order to process doesn't fill the conditions to process the order
   - Robot should ask from the user about the serial code even though the last order it processed was a Plus-size-delivery
   - Handling the users serial code input
   - Check that everything works without the slowmo-configuration (Scary!)
