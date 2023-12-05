@@ -31,8 +31,7 @@ Robot is made with Minimal Template and it works from Control Room as an Assista
 
 Many thanks to Robocorp and to ReMark <3
 
-![image](https://github.com/Lalefal/SannasLittleHelper/assets/94318146/ffb77c0b-33f9-4bd1-a778-dbaecd1ce487)
-
+![Blank board2](https://github.com/Lalefal/SannasLittleHelper-Robot/assets/94318146/ce8d75fc-8f1d-494b-9d1f-bb4c1dae52b4)
 
 # Template: Python - Minimal
 
@@ -56,3 +55,4 @@ For more information, do not forget to check out the following:
 * [Robocorp Documentation -site](https://robocorp.com/docs)
 * [Portal for more examples](https://robocorp.com/portal)
 * [robo repo](https://github.com/robocorp/robo) as this will developed a lot...
+
