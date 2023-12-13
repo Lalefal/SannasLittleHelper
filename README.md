@@ -18,12 +18,12 @@ Robot
 - informs the user when it is time to pay for the delivery and waits until it is done
 - marks the processed orders as processed
 
-There is still many things to add and fix
+There is still many things to add and fix (but since Sanna has decided to move her store to another platform, there is no rush)
   - Robot to send an email about processed and unprocessed orders
   - How to exit from the loop 'select next order' if the last order to process doesn't fill the conditions to process the order
   - Robot should ask from the user about the serial code even though the last order it processed was a Plus-size-delivery
   - Handling the users serial code input
-  - Check that everything works without the slowmo-configuration (Scary!)
+  - Check that everything works without the slowmo-configuration
   - Adding some classes...
 
 
