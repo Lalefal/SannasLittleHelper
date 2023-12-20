@@ -3,7 +3,8 @@
 This is a school project for Robotic Process Automation course: Mailing Assistant Robot for my friend [Sanna Hellikki's](https://holvi.com/shop/sannahellikkiturunen/) online store to process the orders.
 
 Robot 
-- checks the amount of unprocessed orders
+- logs in to Holvi and to Posti pages
+- checks the amount of unprocessed orders at Holvi
 - chooses the last unprocessed order
 - checks how many items are on the order and to which country it is ordered to
   - if one product + delivery fee and to Finland:
@@ -19,13 +20,14 @@ Robot
 - marks the processed orders as processed
 
 There is still many things to add and fix (but since Sanna has decided to move her store to another platform, there is no rush)
+  - Adding some classes and all the other things I have learned after doing this
   - Robot to send an email about processed and unprocessed orders
   - How to exit from the loop 'select next order' if the last order to process doesn't fill the conditions to process the order
   - Robot should ask from the user about the serial code even though the last order it processed was a Plus-size-delivery
   - Handling the users serial code input
   - Check that everything works without the slowmo-configuration
-  - Adding some classes...
-
+  - installation guide
+  
 
 Robot is made with Minimal Template and it works from Control Room as an Assistant.
 
