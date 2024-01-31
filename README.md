@@ -37,8 +37,3 @@ There is still many things to add and fix (but since Sanna has decided to move h
 
 Robot is made with Robocorps Minimal Template and it works from Robocorp Control Room as an Assistant.
 Many thanks to Robocorp and to ReMark <3
-
-For more information, do not forget to check out the following:
-* [Robocorp Documentation -site](https://robocorp.com/docs)
-* [Portal for more examples](https://robocorp.com/portal)
-* [robo repo](https://github.com/robocorp/robo) as this will developed a lot...
