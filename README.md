@@ -1,8 +1,9 @@
 # Mailing assistant robot
 
-This is a school project for Robotic Process Automation course: Mailing Assistant Robot for my friend [Sanna Hellikki's](https://holvi.com/shop/sannahellikkiturunen/) online store to process the orders.
-[Process Definition in pictures](https://github.com/Lalefal/SannasLittleHelper-Robot/blob/main/ToimintaprosessinKuvaus.pdf).
+This is a school project for Robotic Process Automation course: Mailing Assistant Robot for my friend [Sanna Hellikki's](https://holvi.com/shop/sannahellikkiturunen/) online store to process the orders. [Process Definition in pictures](https://github.com/Lalefal/SannasLittleHelper-Robot/blob/main/ToimintaprosessinKuvaus.pdf).
 
+
+![Blank board2](https://github.com/Lalefal/SannasLittleHelper-Robot/assets/94318146/ce8d75fc-8f1d-494b-9d1f-bb4c1dae52b4) 
 
 Robot 
 - logs in to Holvi and to Posti pages
@@ -31,32 +32,11 @@ There is still many things to add and fix (but since Sanna has decided to move h
   - installation guide
   
 
-![Blank board2](https://github.com/Lalefal/SannasLittleHelper-Robot/assets/94318146/ce8d75fc-8f1d-494b-9d1f-bb4c1dae52b4)
-Flowchart is made with Lucidchart.
+
 
 
 Robot is made with Robocorps Minimal Template and it works from Robocorp Control Room as an Assistant.
 Many thanks to Robocorp and to ReMark <3
-
-
-
-# Template: Python - Minimal
-
-This template leverages the new Python open-source structure [robo](https://github.com/robocorp/robo), the [libraries](https://github.com/robocorp/robo#libraries) from to same project as well.
-The full power of [rpaframework](https://github.com/robocorp/rpaframework) is also available for you on Python as a backup while we implement new Python libraries.
-
-The template provides you with the basic structure of a Python project: logging out of the box and controlling your tasks without fiddling with the base Python stuff. The environment contains the most used libraries, so you do not have to start thinking about those right away. 
-
-👉 After running the bot, check out the `log.html` under the `output` -folder.
-
-The template here is essentially empty, leaving you with a canvas to paint on.
-
-Do note that with Robocorp tooling you:
-- Do NOT need Python installed
-- Should NOT be writing `pip install..`; the [conda.yaml](https://github.com/robocorp/template-python/blob/master/conda.yaml) is here for a reason.
-- You do not need to worry about Python's main -functions and, most importantly, the logging setup
-
-🚀 Now, go get'em
 
 For more information, do not forget to check out the following:
 * [Robocorp Documentation -site](https://robocorp.com/docs)
