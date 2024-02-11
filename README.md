@@ -22,7 +22,7 @@ Robot
 - informs the user when it is time to pay for the delivery and waits until it is done
 - marks the processed orders as processed
 
-There is still many things to add and fix (but since Sanna has decided to move her store to another platform, there is no rush)
+There is still many things to add and fix (Sanna decided to move her store to another platform...)
   - Adding some classes and all the other things I have learned after doing this
   - Robot to send an email about processed and unprocessed orders
   - How to exit from the loop 'select next order' if the last order to process doesn't fill the conditions to process the order
